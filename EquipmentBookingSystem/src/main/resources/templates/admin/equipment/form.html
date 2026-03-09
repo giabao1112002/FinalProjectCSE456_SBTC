@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Thiết bị - Equipment Booking System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f5f5f5;
+        }
+        .navbar-brand {
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+        .form-container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .form-label {
+            font-weight: 500;
+        }
+        .error-message {
+            color: #dc3545;
+            font-size: 0.85rem;
+            margin-top: 5px;
+        }
+        .footer {
+            background-color: #343a40;
+            color: white;
+            padding: 20px;
+            margin-top: 50px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">📦 Equipment Booking System</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">Trang chủ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/admin/equipment">Quản lý thiết bị</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin/dashboard">Quản lý</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/auth/logout">Đăng xuất</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mt-4">
+        <div class="form-container">
+            <h2 class="mb-4" th:text="${equipment.id} ? 'Sửa thiết bị' : 'Thêm thiết bị mới'"></h2>
+
+            <form th:action="${equipment.id} ? @{/admin/equipment/edit/{id}(id=${equipment.id})} : @{/admin/equipment/add}" 
+                  th:object="${equipment}" method="POST">
+                <div class="form-group mb-3">
+                    <label for="name" class="form-label">Tên thiết bị</label>
+                    <input type="text" class="form-control" id="name" th:field="*{name}" required>
+                    <div th:if="${#fields.hasErrors('name')}" class="error-message">
+                        <span th:errors="*{name}"></span>
+                    </div>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label for="code" class="form-label">Mã số thiết bị</label>
+                    <input type="text" class="form-control" id="code" th:field="*{code}" required>
+                    <div th:if="${#fields.hasErrors('code')}" class="error-message">
+                        <span th:errors="*{code}"></span>
+                    </div>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label for="category" class="form-label">Danh mục</label>
+                    <select class="form-select" id="category" th:field="*{category.id}" required>
+                        <option value="">-- Chọn danh mục --</option>
+                        <option th:each="cat : ${categories}" th:value="${cat.id}" th:text="${cat.name}"></option>
+                    </select>
+                    <div th:if="${#fields.hasErrors('category')}" class="error-message">
+                        <span th:errors="*{category}"></span>
+                    </div>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label for="quantity" class="form-label">Số lượng</label>
+                    <input type="number" class="form-control" id="quantity" th:field="*{quantity}" min="0" required>
+                    <div th:if="${#fields.hasErrors('quantity')}" class="error-message">
+                        <span th:errors="*{quantity}"></span>
+                    </div>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label for="availableQuantity" class="form-label">Số lượng sẵn sàng</label>
+                    <input type="number" class="form-control" id="availableQuantity" th:field="*{availableQuantity}" min="0">
+                    <small class="form-text text-muted">Nếu không nhập, sẽ bằng số lượng</small>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label for="description" class="form-label">Mô tả (tùy chọn)</label>
+                    <textarea class="form-control" id="description" th:field="*{description}" rows="3"></textarea>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label for="status" class="form-label">Trạng thái</label>
+                    <select class="form-select" id="status" th:field="*{status}">
+                        <option value="AVAILABLE">Sẵn sàng</option>
+                        <option value="UNAVAILABLE">Không sẵn sàng</option>
+                        <option value="MAINTENANCE">Bảo trì</option>
+                    </select>
+                </div>
+
+                <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-primary" th:text="${equipment.id} ? 'Cập nhật' : 'Thêm mới'"></button>
+                    <a href="/admin/equipment" class="btn btn-secondary">Hủy</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer mt-5">
+        <div class="container text-center">
+            <p>&copy; 2024 Equipment Booking System - CSE 456 Group Project</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

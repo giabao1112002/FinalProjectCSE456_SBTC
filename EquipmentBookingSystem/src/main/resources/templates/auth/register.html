@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng ký - Equipment Booking System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .register-container {
+            background: white;
+            border-radius: 10px;
+            padding: 40px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 500px;
+        }
+        .register-container h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-weight: bold;
+            color: #333;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-label {
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+        .btn-register {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            color: white;
+            font-weight: bold;
+            padding: 10px;
+        }
+        .btn-register:hover {
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+            color: white;
+        }
+        .login-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .login-link a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+        .error-message {
+            color: #dc3545;
+            font-size: 0.85rem;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="register-container">
+        <h1>📦 Đăng ký</h1>
+
+        <form th:action="@{/auth/register}" th:object="${account}" method="POST">
+            <div class="form-group">
+                <label for="fullName" class="form-label">Tên đầy đủ</label>
+                <input type="text" class="form-control" id="fullName" th:field="*{fullName}" required>
+                <div th:if="${#fields.hasErrors('fullName')}" class="error-message">
+                    <span th:errors="*{fullName}"></span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="username" class="form-label">Tên đăng nhập</label>
+                <input type="text" class="form-control" id="username" th:field="*{username}" required>
+                <div th:if="${#fields.hasErrors('username')}" class="error-message">
+                    <span th:errors="*{username}"></span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" class="form-control" id="email" th:field="*{email}" required>
+                <div th:if="${#fields.hasErrors('email')}" class="error-message">
+                    <span th:errors="*{email}"></span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="password" class="form-label">Mật khẩu</label>
+                <input type="password" class="form-control" id="password" th:field="*{password}" required>
+                <div th:if="${#fields.hasErrors('password')}" class="error-message">
+                    <span th:errors="*{password}"></span>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-register w-100">Đăng ký</button>
+        </form>
+
+        <div class="login-link">
+            <p>Đã có tài khoản? <a href="/auth/login">Đăng nhập tại đây</a></p>
+            <p><a href="/">← Quay lại trang chủ</a></p>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
