@@ -21,7 +21,7 @@ Hệ thống quản lý mượn/trả thiết bị học tập cho cơ sở vậ
 
 ## Công nghệ sử dụng
 
-- **Backend**: Spring Boot 4.0.3
+- **Backend**: Spring Boot 4.0.3 Baoga
 - **Database**: MySQL 8.0+
 - **Frontend**: Thymeleaf + Bootstrap 5
 - **ORM**: Spring Data JPA + Hibernate
